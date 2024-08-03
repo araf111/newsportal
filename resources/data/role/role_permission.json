@@ -1,0 +1,11 @@
+{
+    "Admin": [
+        "manage_dashboard",
+        "manage_category",
+        "manage_news",
+        "manage_subcategory",
+        "global_setting",
+        "home_setting",
+        "manage_home_video"
+    ]
+}

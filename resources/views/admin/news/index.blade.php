@@ -1,0 +1,124 @@
+@extends('layouts.admin')
+
+@section('content')
+    <!-- Page content area start -->
+    <div class="page-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb__content">
+                        <div class="breadcrumb__content__left">
+                            <div class="breadcrumb__title">
+                                <h2>{{__('News')}}</h2>
+                            </div>
+                        </div>
+                        <div class="breadcrumb__content__right">
+                            <nav aria-label="breadcrumb">
+                                <ul class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">{{__('Dashboard')}}</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{__('News')}}</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="customers__area bg-style mb-30 admin-dashboard-blog-list-page">
+                        <div class="item-title d-flex justify-content-between">
+                            <h2>{{__('News List')}}</h2>
+                            <a href="{{route('news.create')}}" class="btn btn-success btn-sm"> <i class="fa fa-plus"></i> {{__('Add News')}} </a>
+                        </div>
+                        <div class="customers__table">
+                            <table id="customers-table" class="row-border data-table-filter table-style">
+                                <thead>
+                                <tr>
+                                    <th>{{__('SL')}}</th>
+                                    <th>{{__('Title')}}</th>
+                                    <th>{{__('Author')}}</th>
+                                    <th>{{__('Category')}}</th>
+                                    <th>{{__('Heading')}}</th>
+                                    <th>{{__('Updated Date')}}</th>
+                                    <th>{{__('Created Date')}}</th>
+                                    <th>{{__('Status')}}</th>
+                                    <th>{{__('Image')}}</th>
+                                    <th>{{__('Action')}}</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($newsLists as $key => $newsList)
+                                    <tr class="removable-item">
+
+                                        <td>
+                                            {{$key + 1}}
+                                        </td>
+                                        <td>
+                                            {{$newsList->title}}
+                                        </td>
+                                        <td>
+                                            {{$newsList->newsAuthor->name??"" }}
+                                        </td>
+
+                                        <td>
+                                            {{ $newsList->categories->pluck('name')->implode(', ') }}
+                                        </td>
+
+                                        <td>
+                                            Heading..
+                                        </td>
+
+                                        <td>
+                                            {{ $newsList->created_at }}
+                                        </td>
+                                        <td>
+                                            {{ $newsList->updated_at }}
+                                        </td>
+                                        <td>
+                                            @if($newsList->status == 1)
+                                                <span class="status bg-green">{{ __('Published') }}</span>
+                                            @else
+                                                <span class="status bg-red">{{ __('Unpublished') }}</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="admin-dashboard-blog-list-img">
+                                                <img src="{{getImageFile($newsList->feature_image)}}" alt="img">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="action__buttons">
+                                                <a href="{{route('news.edit', [$newsList->id])}}" title="Edit" class="btn-action">
+                                                    <img src="{{asset('admin/images/icons/edit-2.svg')}}" alt="edit">
+                                                </a>
+                                                <a href="javascript:void(0);" data-url="{{route('news.delete', [$newsList->id])}}" title="Delete" class="btn-action delete">
+                                                    <img src="{{asset('admin/images/icons/trash-2.svg')}}" alt="trash">
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                            <div class="mt-3">
+                                {{@$newsLists->links()}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- Page content area end -->
+@endsection
+
+@push('style')
+    <link rel="stylesheet" href="{{asset('admin/css/jquery.dataTables.min.css')}}">
+@endpush
+
+@push('script')
+    <script src="{{asset('admin/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('admin/js/custom/data-table-page.js')}}"></script>
+@endpush
