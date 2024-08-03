@@ -12,7 +12,6 @@
 - php artisan key:generate
 - php artisan config:cache
 - php artisan migrate:fresh --seed
-- npm run dev
 - php artisan serve
 
 <h5>Brows this link: http://127.0.0.1:8000/login</h5>
